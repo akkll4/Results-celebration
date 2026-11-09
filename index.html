@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1853 Days — CHTMP 5 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,600;0,800;1,500&display=swap">
+<style>
+:root {
+  --bg: #050304;
+  --bg-soft: #0a0607;
+  --ink: #f5e6d3;
+  --mut: rgba(245, 230, 211, 0.6);
+  --gold: #d4af37;
+  --gold-light: #e8c547;
+  --burgundy: #7a1f2b;
+  --burgundy-deep: #3a0a14;
+  --burgundy-light: #a83246;
+  
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #050304;
+    --ink: #f5e6d3;
+    --mut: rgba(245, 230, 211, 0.6);
+  }
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, Cairo, system-ui, sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.lock {
+  overflow: hidden;
+  height: 100svh;
+}
+
+#fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+#bar {
+  position: fixed;
+  top: env(safe-area-inset-top, 0px);
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--burgundy), var(--gold), var(--gold-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 40;
+}
+
+#start {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  cursor: pointer;
+  transition: opacity 1.2s;
+  text-align: center;
+  padding: 24px;
+}
+
+#start.off {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#start .h {
+  font-size: 64px;
+  animation: beat 1.1s infinite;
+}
+
+#start p {
+  color: var(--mut);
+  font-family: Cairo, Inter, sans-serif;
+  letter-spacing: .04em;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+}
+
+.scene {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14vh 22px;
+  overflow: hidden;
+  background: radial-gradient(120% 80% at 50% 0%, var(--t, #1a0508) 0%, var(--bg) 70%);
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 780px;
+  text-align: center;
+}
+
+.tag {
+  font-family: Cairo, sans-serif;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: clamp(14px, 3.6vw, 18px);
+  letter-spacing: 0.1em;
+}
+
+h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 800;
+  font-size: clamp(40px, 11vw, 92px);
+  line-height: 1.05;
+  margin: 10px 0 22px;
+  background: linear-gradient(180deg, var(--ink), var(--gold-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.en {
+  font-size: clamp(16px, 4.3vw, 20px);
+  color: var(--ink);
+  max-width: 60ch;
+  margin: 0 auto 16px;
+  opacity: 0.9;
+}
+
+.ar {
+  font-family: Cairo, sans-serif;
+  font-size: clamp(17px, 4.6vw, 23px);
+  color: var(--gold-light);
+  margin: 0 auto 26px;
+  max-width: 46ch;
+  line-height: 1.9;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(18px, 6vw, 46px);
+  flex-wrap: wrap;
+  margin: 10px 0 30px;
+}
+
+.stat b {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(34px, 9vw, 56px);
+  color: var(--gold);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.stat span {
+  font-family: Cairo, sans-serif;
+  font-size: 13px;
+  color: var(--mut);
+  letter-spacing: 0.05em;
+}
+
+.chk {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 28px;
+  max-width: 360px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.chk li {
+  padding: 8px 14px;
+  border-left: 2px solid rgba(245, 230, 211, 0.15);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: .6s;
+}
+
+.chk.in li {
+  opacity: 1;
+  transform: none;
+}
+
+.chk li::before {
+  content: "✔ ";
+  color: var(--gold);
+}
+
+.chk li.x {
+  font-family: Cairo, sans-serif;
+  direction: rtl;
+  text-align: right;
+  border-left: 0;
+  border-right: 2px solid var(--burgundy-light);
+  color: var(--burgundy-light);
+}
+
+.chk li.x::before {
+  content: "✘ ";
+  color: var(--burgundy-light);
+}
+
+.ico {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ico i {
+  position: absolute;
+  font-style: normal;
+  opacity: .08;
+  font-size: clamp(28px, 7vw, 54px);
+  animation: fl 9s ease-in-out infinite;
+}
+
+@keyframes fl {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-34px) rotate(8deg); }
+}
+
+.rv {
+  opacity: 0;
+  transform: translateY(46px);
+  filter: blur(10px);
+  transition: opacity 1.1s cubic-bezier(.2,.7,.2,1), transform 1.1s cubic-bezier(.2,.7,.2,1), filter 1.1s;
+  transition-delay: var(--d, 0s);
+}
+
+.rv.in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.photos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(14px, 4vw, 30px);
+  margin-top: 18px;
+}
+
+.ph {
+  width: clamp(280px, 85vw, 600px); /* Much wider for 16:9 */
+  background: #f5e6d3;
+  padding: 9px 9px 34px;
+  border-radius: 3px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  color: #222;
+  position: relative;
+  opacity: 0;
+  transform: translate(var(--x), var(--y)) rotate(calc(var(--r) * 4)) scale(.7);
+  transition: transform 1.3s cubic-bezier(.2,.9,.25,1.1), opacity 1s;
+  transition-delay: var(--d, 0s);
+  margin: 0 auto; /* Centers the single photo */
+}
+
+.ph.in {
+  opacity: 1;
+  transform: rotate(var(--r));
+}
+
+@media (hover: hover) {
+  .ph.in:hover {
+    transform: rotate(0) scale(1.03); /* Subtle zoom instead of big rotation */
+    z-index: 5;
+    transition-delay: 0s;
+    transition-duration: .35s;
+  }
+}
+
+.ph .im {
+  aspect-ratio: 16 / 9; /* Cinematic wide format */
+  background: linear-gradient(135deg, var(--burgundy-deep), var(--burgundy));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 30px;
+  color: var(--gold);
+  overflow: hidden;
+}
+
+.ph .im small {
+  font-family: Cairo, sans-serif;
+  font-size: 11px;
+  opacity: .7;
+  color: var(--ink);
+}
+
+.ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ph cite {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7px;
+  font: 600 14px Cairo, sans-serif;
+  font-style: normal;
+  text-align: center;
+  color: var(--burgundy-deep);
+}
+
+#fin {
+  background: radial-gradient(120% 90% at 50% 20%, var(--burgundy-deep) 0%, #1a0508 45%, var(--bg) 100%);
+  min-height: 100svh;
+}
+
+#flash {
+  position: fixed;
+  inset: 0;
+  background: var(--gold);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 55;
+}
+
+#flash.go {
+  animation: fl2 1.2s ease-out;
+}
+
+@keyframes fl2 {
+  0% { opacity: .8; }
+  100% { opacity: 0; }
+}
+
+.wd {
+  font-family: "Playfair Display", serif;
+  font-weight: 800;
+  font-size: clamp(46px, 14vw, 0px);
+  line-height: 1;
+  margin: 14px 0;
+  color: var(--gold);
+  text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+}
+
+.wd span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px) scale(.6);
+}
+
+.on .wd span {
+  animation: pop .9s cubic-bezier(.2,1.4,.4,1) forwards;
+  animation-delay: calc(var(--k) * .06s + .5s);
+}
+
+@keyframes pop {
+  to { opacity: 1; transform: none; }
+}
+
+.cg {
+  font-family: "Playfair Display", serif;
+  letter-spacing: .14em;
+  font-size: clamp(15px, 4.4vw, 26px);
+  color: var(--ink);
+}
+
+.cd {
+  display: flex;
+  justify-content: center;
+  gap: clamp(8px, 3vw, 18px);
+  margin: 22px 0 8px;
+}
+
+.cd div {
+  min-width: clamp(62px, 19vw, 96px);
+  padding: 14px 6px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  background: rgba(212, 175, 55, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.cd b {
+  display: block;
+  font: 800 clamp(28px, 8vw, 46px)/1 "Playfair Display", serif;
+  color: var(--gold);
+}
+
+.cd span {
+  font-size: 12px;
+  color: var(--mut);
+  font-family: Cairo, sans-serif;
+}
+
+.msg {
+  font-family: Cairo, sans-serif;
+  font-size: clamp(18px, 5vw, 26px);
+  line-height: 2;
+  margin: 34px auto 26px;
+  max-width: 30em;
+  color: var(--ink);
+}
+
+.sig {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(22px, 6vw, 34px);
+  color: var(--gold);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  display: inline-block;
+  padding-top: 16px;
+  margin-top: 10px;
+}
+
+.ecg {
+  width: 100%;
+  max-width: 620px;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.ecg path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: ecg 3.2s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+}
+
+@keyframes ecg {
+  0% { stroke-dashoffset: 1000; }
+  70%, 100% { stroke-dashoffset: 0; }
+}
+
+.tw {
+  min-height: 2.2em;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(24px, 6.4vw, 44px);
+  margin: 12px 0;
+  color: var(--ink);
+}
+
+.tw.ar {
+  font-family: Cairo, sans-serif;
+  color: var(--gold);
+  font-size: clamp(22px, 6vw, 36px);
+}
+
+.tw::after {
+  content: "▍";
+  color: var(--gold);
+  animation: bl 1s steps(2) infinite;
+}
+
+.tw.done::after {
+  display: none;
+}
+
+@keyframes bl {
+  50% { opacity: 0; }
+}
+
+.hint {
+  margin-top: 30px;
+  color: var(--mut);
+  font-family: Cairo, sans-serif;
+  opacity: 0;
+  transition: opacity 1.5s;
+  animation: bob 2s infinite;
+}
+
+.hint.in {
+  opacity: 1;
+}
+
+@keyframes bob {
+  50% { transform: translateY(8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .01s !important;
+    transition-duration: .01s !important;
+  }
+  .rv, .ph, .wd span {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+#music-toggle {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(58, 10, 20, 0.6);
+  backdrop-filter: blur(8px);
+  color: var(--gold);
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0; /* Hidden until start is clicked */
+  pointer-events: none;
+}
+
+#music-toggle.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#music-toggle:hover {
+  background: rgba(212, 175, 55, 0.2);
+  transform: scale(1.1);
+}
+
+
+</style>
+</head>
+<body class="lock">
+<canvas id="fx"></canvas>
+<div id="bar"></div>
+<div id="flash"></div>
+<button id="music-toggle" aria-label="Toggle Music">🎵</button>
+
+<div id="start">
+  <div class="h">🫀</div>
+  <p>اضغط للبدء · Tap to begin</p>
+</div>
+
+<section class="scene" id="s1" style="--t:#1a0508">
+  <div class="wrap">
+    <svg class="ecg" viewBox="0 0 600 100">
+      <path pathLength="1000" d="M0 55H110l12-10 12 10H210l14-46 18 92 14-62 10 16H330l12-10 12 10H600"/>
+    </svg>
+    <div class="tw ar" id="t1" dir="rtl"></div>
+    <div class="tw" id="t2"></div>
+    <div class="tw" id="t3" style="font-size:clamp(18px,4.6vw,28px);color:var(--mut)"></div>
+    <div class="hint" id="hint">اسحب لأسفل · Scroll ↓</div>
+  </div>
+</section>
+
+<div id="story"></div>
+
+<section class="scene" id="fin">
+  <div class="wrap">
+    <div class="cg rv">CONGRATULATIONS, DOCTORS</div>
+    <div class="wd" id="wd" aria-label="Welcome, Doctor."></div>
+    <p class="en rv">1853 days. 181 exams. One dream. You made it.</p>
+    <div class="stats rv">
+      <div class="stat"><b data-n="1853">0</b><span>يوم · days</span></div>
+      <div class="stat"><b data-n="181">0</b><span>امتحان · exams</span></div>
+      <div class="stat"><b data-n="5">0</b><span>سنين · years</span></div>
+    </div>
+    <div class="en rv" style="margin-bottom:0; color: var(--gold); font-weight: 600;">Internship begins in</div>
+    <div class="cd rv" id="cd"></div>
+    <div class="en rv" style="font-size:14px;color:var(--mut)">1 March 2027</div>
+    <p class="msg rv" dir="rtl">من قاعات الكلية… إلى أروقة المستشفى.
+    <div class="sig rv">Signed — CHTMP 5 2026 🩺</div>
+  </div>
+</section>
+
+<script>
+(function(){
+"use strict";
+
+// ===== ADD YOUR IMAGE FILE NAMES HERE =====
+// Make sure these exact files are in the same folder as index.html
+var PHOTOS = [
+  "photo-01.jpg", // Year 1 (1 image)
+  "photo-02.jpg", // Year 2 (image 1 of 2)
+  "photo-03.jpg", // Year 2 (image 2 of 2)
+  "photo-04.jpg", // Year 3 (1 image)
+  "photo-05.jpg", // Year 4 (1 image)
+  "photo-06.jpg", // Year 5 (image 1 of 2)
+  "photo-07.jpeg"  // Year 5 (image 2 of 2)
+];
+
+
+var S = [
+  {tag:"السنة الأولى · Year 1", h:"The Shock", t:"#1a0508", ic:"🦴 ☕ 📖 🧠 🔬",
+en:"We didn't know where the 7th floor was. We got lost in the college corridors more times than we can count. Anatomy felt like a new language, and we still showed up.",   ar:"  قاعات السابع، أول محاضرة، أول امتحان، وأول مرة نحس إننا مش فاهمين حاجة… بس كملنا.",
+   st:[[50,"امتحان · exams"],[20,"مادة · subjects"],["∞","فناجين قهوة ☕"]], p:1}, // 1 photo
+  {tag:"السنة الثانية · Year 2", h:"The Grind", t:"#2a0a10", ic:"💊 🔬 📚 🧫 💻",
+en:"Pathology, Pharmacology, Microbiology. The subjects got heavier and the nights got longer. First OSCE — hands shaking, checklist in hand. Assignments, presentations, group work. We learned what a team really means.",   ar:"أبحاث، بريزنتيشنز، سهر، وجروبات واتساب ما بتقفلش.",
+   st:[[42,"امتحان · exams"],[17,"مادة · subjects"],["24/7","واتساب 💬"]], p:2}, // 2 photos
+  {tag:"السنة الثالثة · Year 3", h:"The Hospital", t:"#1f080c", ic:"🩺 🫀 🫁 🧠 🏥",
+en:"First time at the French Hospital. First time at a patient's bedside. First time our hands shook. The systems came alive: Cardio, Renal, Neuro, Respiratory.",   ar:"أوسكي، توتر، دكتور بيسأل، وإحنا بنحاول نثبت إننا فاهمين.",
+   st:[[33,"امتحان · exams"],[14,"مادة · subjects"]], p:1}, // 1 photo
+  {tag:"السنة الرابعة · Year 4", h:"The Clerkships", t:"#3a0e16", ic:"👶 🔪 🚑 💉 🩸",
+   en:"Pediatrics. Surgery. OBGYN. We weren’t just students anymore. Long shifts, emergencies, real responsibility. We saw life begin, and sometimes we saw loss.",
+   ar:"نوبات، طوارئ، أول جراحه أول عملية، وأول مريض يشكرنا.",
+   st:[[29,"امتحان · exams"],[11,"مادة · subjects"]], p:1}, // 1 photo
+  {tag:"السنة الخامسة · Year 5", h:"The Final Battle", t:"#4a121c", ic:"⚔️ 🏆 🌙 📝 ⏳",
+   en:"Internal Medicine II. Surgery II. Pediatrics II. Psychiatry. Every exam felt like the last, every night felt like the longest. We kept going, together.",
+   ar:"  آخر امتحان، آخر يوم في الكلية… وإحنا هنا.",
+   st:[[27,"امتحان · exams"],[11,"مادة · subjects"],["1","نتيجة واحدة 🎓"]], p:2} // 2 photos
+];
+
+var $ = function(s){ return document.querySelector(s); };
+var pi = 0, html = "";
+
+S.forEach(function(s, i){
+  var ic = s.ic.split(" ").map(function(e, k){
+    return '<i style="left:'+(6+k*21)+'%;top:'+(8+(k*37+i*13)%78)+'%;animation-delay:-'+k*1.7+'s">'+e+'</i>';
+  }).join("");
+  
+  var st = s.st.map(function(x){
+    return '<div class="stat"><b'+(typeof x[0]==="number"?' data-n="'+x[0]+'">0':'>'+x[0])+'</b><span>'+x[1]+'</span></div>';
+  }).join("");
+  
+  var ph = "";
+  for(var k = 0; k < s.p; k++){
+    var n = pi++, X = [-90, 90, 0][n%3], Y = [20, 40, 110][n%3], R = ((n%2?1:-1)*(2+(n%3)*1.6));
+    ph += '<div class="ph" data-i="'+n+'" style="--x:'+X+'px;--y:'+Y+'px;--r:'+R+'deg;--d:'+(k*.18)+'s">'+pic(n)+'<cite>'+'</cite></div>';
+  }
+  
+  html += '<section class="scene" style="--t:'+s.t+'"><div class="ico">'+ic+'</div><div class="wrap">'+
+  '<div class="tag rv">'+s.tag+'</div><h2 class="rv" style="--d:.1s">'+s.h+'</h2>'+
+  '<p class="en rv" style="--d:.2s">'+s.en+'</p><p class="ar rv" dir="rtl" style="--d:.3s">'+s.ar+'</p>'+
+  (s.chk ? '<ul class="chk">'+s.chk.map(function(c, k){ return '<li'+(k==4?' class="x"':'')+' style="transition-delay:'+(k*.45)+'s">'+c+'</li>'; }).join("")+'</ul>' : "")+
+  '<div class="stats rv" style="--d:.4s">'+st+'</div><div class="photos">'+ph+'</div></div></section>';
+});
+
+function pic(n){ 
+  return '<div class="im"><img  src="'+PHOTOS[n]+'"></div>'; 
+}
+
+$("#story").innerHTML = html;
+
+// Finale title animation
+var wd = $("#wd");
+"Welcome, Doctor.".split("").forEach(function(c, k){
+  var e = document.createElement("span");
+  e.style.setProperty("--k", k);
+  e.textContent = c === " " ? "\u00a0" : c;
+  wd.appendChild(e);
+});
+
+// Countdown to March 1, 2027
+var T = new Date(2027, 2, 1, 0, 0, 0).getTime(), cd = $("#cd");
+function tick(){
+  var d = Math.max(0, T - Date.now()), 
+      v = [Math.floor(d/864e5), Math.floor(d/36e5)%24, Math.floor(d/6e4)%60, Math.floor(d/1e3)%60], 
+      l = ["يوم", "ساعة", "دقيقة", "ثانية"];
+  cd.innerHTML = v.map(function(x, i){
+    return '<div><b>'+String(x).padStart(2, "0")+'</b><span>'+l[i]+'</span></div>';
+  }).join("");
+}
+tick();
+setInterval(tick, 1000);
+
+// Counter animation
+function count(el){
+  var n = +el.dataset.n, t0 = null;
+  function f(t){
+    t0 = t0 || t;
+    var p = Math.min((t - t0) / 1800, 1);
+    el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3)));
+    if(p < 1) requestAnimationFrame(f);
+  }
+  requestAnimationFrame(f);
+}
+
+// Confetti (Burgundy & Gold Palette)
+var cv = $("#fx"), cx = cv.getContext("2d"), P = [], run = false, W, H, dpr = Math.min(devicePixelRatio || 1, 2);
+function rs(){ W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+rs();
+addEventListener("resize", rs);
+
+var COL = ["#d4af37", "#e8c547", "#f5e6d3", "#a83246", "#7a1f2b"];
+
+function burst(x, y, n, spread){
+  for(var i = 0; i < n; i++){
+    var a = -Math.PI/2 + (Math.random() - .5) * spread, s = 7 + Math.random() * 10;
+    P.push({x: x, y: y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, w: 6+Math.random()*7, h: 4+Math.random()*5, r: Math.random()*6, vr: (Math.random()-.5)*.4, c: COL[i%5], l: 1});
+  }
+  if(!run){ run = true; requestAnimationFrame(loop); }
+}
+
+function loop(){
+  cx.clearRect(0, 0, W, H);
+  P = P.filter(function(p){ return p.y < H + 30 && p.l > 0; });
+  P.forEach(function(p){
+    p.vy += .22; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.l -= .003;
+    cx.save(); cx.globalAlpha = Math.max(p.l, 0); cx.translate(p.x, p.y); cx.rotate(p.r); cx.scale(1, Math.cos(p.r*2));
+    cx.fillStyle = p.c; cx.fillRect(-p.w/2, -p.h/2, p.w, p.h); cx.restore();
+  });
+  if(P.length) requestAnimationFrame(loop); else run = false;
+}
+
+var fired = false;
+function finale(){
+  if(fired) return;
+  fired = true;
+  $("#fin").classList.add("on");
+  $("#flash").classList.add("go");
+  
+  setTimeout(function(){
+    burst(W*.5, H*.7, 160, Math.PI*1.2);
+    burst(W*.1, H*.9, 90, 1);
+    burst(W*.9, H*.9, 90, 1);
+  }, 700);
+  
+  var k = 0, iv = setInterval(function(){
+    burst(Math.random()*W, H*.9, 50, 1.4);
+    if(++k > 6) clearInterval(iv);
+  }, 900);
+  
+  setTimeout(function(){
+    document.querySelectorAll("#fin .stat b").forEach(count);
+  }, 1800);
+}
+
+// Reveal on scroll
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting) return;
+    var t = e.target;
+    t.classList.add("in");
+    if(t.classList.contains("stats") && !t.dataset.d && t.closest(".scene").id !== "fin"){
+      t.dataset.d = 1;
+      t.querySelectorAll("[data-n]").forEach(count);
+    }
+    if(t.id === "fin") finale();
+    io.unobserve(t);
+  });
+}, {threshold: .22});
+
+document.querySelectorAll(".rv, .ph, .chk, .hint").forEach(function(e){ io.observe(e); });
+new IntersectionObserver(function(es){ if(es[0].isIntersecting) finale(); }, {threshold: .35}).observe($("#fin"));
+
+// Scroll progress bar
+var bar = $("#bar");
+addEventListener("scroll", function(){
+  bar.style.transform = "scaleX(" + (scrollY / (document.documentElement.scrollHeight - innerHeight || 1)) + ")";
+}, {passive: true});
+
+// Typewriter intro
+function type(el, txt){
+  return new Promise(function(r){
+    var i = 0;
+    (function n(){
+      el.textContent = txt.slice(0, ++i);
+      if(i < txt.length) setTimeout(n, 55);
+      else { el.classList.add("done"); r(); }
+    })();
+  });
+}
+
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+// ===== AUDIO SETUP =====
+var bgm = new Audio("bgm.mp3");
+bgm.volume = 0.4; // Keeps it at 40% volume so it's emotional, not overpowering
+bgm.loop = false; // Set to true if you want it to repeat after 1 minute
+
+var isMuted = false;
+var musicBtn = $("#music-toggle");
+
+musicBtn.onclick = function() {
+  isMuted = !isMuted;
+  bgm.muted = isMuted;
+  this.textContent = isMuted ? "🔇" : "🎵";
+  this.style.opacity = isMuted ? "0.5" : "1";
+};
+
+// ===== START SCREEN CLICK =====
+$("#start").onclick = function() {
+  // 1. Play the music
+  bgm.play().catch(function(e) {
+    console.log("Audio play prevented (user didn't interact yet):", e);
+  });
+
+  // 2. Show the music toggle button
+  musicBtn.classList.add("visible");
+
+  // 3. Hide start screen and unlock scroll
+  this.classList.add("off");
+  document.body.classList.remove("lock");
+  
+  // 4. Run typewriter animations
+  var a = $("#t1"), b = $("#t2"), c = $("#t3");
+  [b, c].forEach(function(x){ x.classList.add("done"); });
+  
+  wait(1200).then(function(){ return type(a, "٩ أكتوبر ٢٠٢١…"); })
+  .then(function(){ b.classList.remove("done"); return wait(500); })
+  .then(function(){ return type(b, "It started with a dream…"); })
+  .then(function(){ c.classList.remove("done"); return wait(400); })
+  .then(function(){ return type(c, "and a white coat that was too big for us."); })
+  .then(function(){ return wait(600); })
+  .then(function(){ $("#hint").classList.add("in"); });
+};
+
+})();
+</script>
+</body>
+</html>
