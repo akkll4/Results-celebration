@@ -377,6 +377,12 @@ h2 {
   text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
 }
 
+@media (max-width: 600px) {
+  .wd {
+    font-size: clamp(36px, 12vw, 0px);
+  }
+}
+
 .wd span {
   display: inline-block;
   opacity: 0;
@@ -613,7 +619,7 @@ h2 {
 // ===== ADD YOUR IMAGE FILE NAMES HERE =====
 // Make sure these exact files are in the same folder as index.html
 var PHOTOS = [
-  "photo-01.JPG", // Year 1 (1 image)
+  "photo-01.jpg", // Year 1 (1 image)
   "photo-02.jpg", // Year 2 (image 1 of 2)
   "photo-03.jpg", // Year 2 (image 2 of 2)
   "photo-04.jpg", // Year 3 (1 image)
